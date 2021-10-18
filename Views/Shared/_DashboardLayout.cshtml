@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel='stylesheet' href='~/css/datatables/datatables.min.css' />
+    <link href="~/css/plugins.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link href="~/css/toastr.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand d-flex flex-column align-item-start mr-5">
+        <div style="width:100%;text-align:right;padding:6px;">
+            <button class="btn btn-success " id="menu-btn"
+                    style="order:-1;padding:3px 5px 3px 5px; background-color:rgb(183, 228, 199); color:rgb(64, 145, 108);border:none; height:auto !important;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-justify"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                </svg>
+            </button>
+        </div>
+
+        <div style="width:100%;">
+
+
+            <ul class="navbar-nav d-flex flex-column w-100 active-nav" id="sidebar">
+                <a href="#" class="navbar-brand text-light mt-2 mr-0 mb-5 text-center">
+
+                    <div id="title" class="display-5 font-weight-bold text-center">
+
+                        <p style="margin-top:50px;">ENELTEK</p>
+                    </div>
+                </a>
+                @if (User.Claims.FirstOrDefault(x => x.Value == "0") != null)
+                {
+    <li class="nav-item w-100">
+        <a href="~/Icerik/KullaniciIslemleri" id="nav-1" class="nav-link p-4">
+            <div class="nav-link-text text-left">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                     class="bi bi-person-fill" viewBox="0 0 20 20">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                </svg>Kullanıcı
+                İşlemleri
+
+
+            </div>
+        </a>
+    </li>
+                    <li class="nav-item w-100">
+                        <a href="#" id="nav-2" class="nav-link p-4">
+                            <div class="nav-link-text text-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                     class="bi bi-card-list" viewBox="0 0 22 20">
+                                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                    <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+                                </svg>Yönetici Paneli
+                            </div>
+                        </a>
+                    </li>}
+                <li class="nav-item w-100">
+                    <a href="#" id="nav-3" class="nav-link p-4">
+                        <div class="nav-link-text text-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                 class="bi bi-card-checklist" viewBox="0 0 22 20">
+                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z" />
+                            </svg>Çalışan Paneli
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item w-100 mt-5 " id="exit-li">
+                    <a href="~/Home/LogOut" class="nav-link p-4">
+                        <div class="nav-link-text text-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                 class="bi bi-arrow-left-square-fill" viewBox="0 0 24 19">
+                                <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z" />
+                            </svg>ÇIKIŞ
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="my-container active-cont" style="height:100vh;">
+
+
+        <section id="page-title" class="dark" style="        background: url('@Url.Content("~/images/pattern19.png")');
+        padding: 30px;padding-left:0px; padding-right:0;
+
+        border-bottom: 1px double silver">
+            <div class="container">
+                <div class="page-title">
+                    <h1 id="pageTitle"></h1>
+                </div>
+            </div>
+        </section>
+        @RenderBody()
+
+
+    </div>
+    @section Scripts{
+        <script src="~/js/jquery.js" asp-append-version="true"></script>
+        <script src="~/js/plugins.js" asp-append-version="true"></script>
+        <script src="~/js/functions.js" asp-append-version="true"></script>
+        <script src="@Url.Content("~/plugins/datatables/datatable.js")" asp-append-version="true"></script>
+
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+    }
+<script>
+
+    $(document).ready(function () {
+            $("#pageTitle").text("@Html.Raw(@ViewBag.Title)".toLocaleUpperCase()).c;
+        if ("@Html.Raw(ViewBag.Title)" === "Kullanıcı İşlemleri") {
+            $("#nav-1").focus();
+        }
+        else  if ("@Html.Raw(ViewBag.Title)" === "Yönetici Paneli") {
+            $("#nav-2").focus();
+        }
+         else  if ("@Html.Raw(ViewBag.Title)" === "Çalışan Paneli") {
+            $("#nav-3").focus();
+            }
+        })
+        var menu_btn = document.querySelector("#menu-btn");
+        var sidebar = document.querySelector("#sidebar");
+        var container = document.querySelector(".my-container");
+        var navbar = document.querySelector(".navbar");
+        menu_btn.addEventListener("click", () => {
+            sidebar.classList.toggle("active-nav");
+            container.classList.toggle("active-cont");
+            navbar.classList.toggle("navbar-active")
+            container.style.transition = "all 0.4s";
+            if ("@Html.Raw(ViewBag.Title)" === "Kullanıcı İşlemleri") {
+                $('.dataTables_scrollHeadInner').css('width', '100%');
+                $('.table').css('width', '100%');
+                var datatable = $("#datatable").DataTable();
+              
+                setTimeout(function () {
+                    datatable.columns.adjust().draw()
+                }
+                    , 400);
+            }
+           
+
+        })
+</script>
+</body>
+
+</html>

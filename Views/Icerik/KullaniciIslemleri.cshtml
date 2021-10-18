@@ -1,0 +1,169 @@
+﻿@model Demo.Modelsw.Kullanici
+@*
+    
+*@
+@{ Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Kullanıcı İşlemleri";
+}
+<div>
+    <section class="pb-4 pt-4 p-l-10" style=" background-color: whitesmoke;">
+        <div class="container-fluid d-flex flex-column">
+            <div class="row min-vh-100 equal">
+                <div class="col-md-11 col-lg-11 col-xl-5 mx-auto">
+                    <div class="card shadow-lg" style="min-height:510px;max-height:510px;">
+                        <div class="card-body py-5 px-sm-5">
+                            <h3>Kullanıcı Kayıt Ekranı</h3>
+                            <p>Eneltek, admin kullanıcı kayıt formudur. Lütfen Bilgileri <span style="color:red;text-decoration:underline;">Eksiksiz</span> Giriniz</p>
+                            <form id="form1" class="form-validate mt-2" asp-action="addUser">
+                                <div class="h5 mb-4">Hesap Bilgileri</div>
+                                <div class="row m-t-20">
+                                    <div class="form-group col-md-6">
+                                        <label for="email">Email Adresi</label>
+                                        <input type="email" class="form-control" name="username" placeholder="Email Giriniz" required="" asp-for="UserName">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="password">Password</label>
+                                        <div class="input-group show-hide-password">
+                                            <input class="form-control" name="password" placeholder="Enter password" type="password" required="" asp-for="Password">
+                                            <span class="input-group-text"><i class="icon-eye-off" aria-hidden="true" style="cursor: pointer;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-t-20">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Ad</label>
+                                        <input type="text" class="form-control" name="name" placeholder="Adı" required="" asp-for="Name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="surname">Soyad</label>
+                                        <input type="text" class="form-control" name="surname" placeholder="Soyadı" required="" asp-for="Surname">
+                                    </div>
+                                </div>
+                                <div class="row m-t-20">
+                                    <div class="form-group col-md-6">
+                                        <label for="state">Rolü</label>
+                                        <select name="state" class="form-select" required="" asp-for="YetkiId">
+                                            <option value="">Seçiniz...</option>
+                                            <option value="0">Admin</option>
+                                            <option value="1">Çalışan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6 m-t-25">
+                                        <button type="submit" id="submit" class="btn btn-success" style="width:100%; font-size:1.5em;">
+                                            Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-11 col-lg-11 col-xl-7 mx-auto">
+                    <div class="card shadow-lg p-5" style="min-height:510px;max-height:510px;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table id="datatable" class="table table-bordered table-hover" style="width:100%!important;">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Adı</th>
+                                                <th>Soyadı</th>
+                                                <th>Email</th>
+                                                <th>Şifre</th>
+                                                <th>Yetki</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/js/jquery.js" asp-append-version="true"></script>
+    <script src="@Url.Content("~/plugins/datatables/datatables.js")" asp-append-version="true"></script>
+    <script src="~/js/toastr.min.js" asp-append-version="true"></script>
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-left",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "800",
+            "timeOut": "3000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+
+        $(document).ready(function () {
+            console.log(LoadData());
+
+        });
+        function LoadData() {
+            $("#datatable tbody tr").remove();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getUsers")',
+                dataType: 'json',
+                success: function (jdata) {
+                    var items = '';
+                    $('#datatable').DataTable({
+                        data: jdata,
+                        columns: [
+                            
+                            { data: 'id' },
+                            { data: 'name' },
+                            { data: 'surname' },
+                            { data: 'userName' },
+                            {data:'password'},
+                            { data: 'yetkiId' },
+
+                        ],
+                        scrollX: true,
+                      
+                        pageLength: 6,
+                        bLengthChange: false,
+                        language: {
+                            url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json"
+                        }
+                    });
+                    console.log(jdata);
+
+                },
+                error: function (ex) {
+                    toastr["error"]("Bilgiler yüklenemedi!", "Hata!");
+                    return NaN;
+                }
+            });
+            return false;
+        }
+        function AddUser() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("addUser")',
+                dataType: 'json',
+                success: function (data) {
+                    LoadData();
+                },
+                error: function (ex) {
+                    console.log(ex);
+                    toastr["error"]("Kullanıcı Eklenemedi!", "Hata!");
+                }
+            })
+        }
+
+    </script>
+
+</div>
